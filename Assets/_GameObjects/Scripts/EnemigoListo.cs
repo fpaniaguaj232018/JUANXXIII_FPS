@@ -5,13 +5,18 @@ using UnityEngine;
 public class EnemigoListo : MonoBehaviour
 {
     public float speed;
+    public GameObject prefabExplosion;
     enum State { Walking, Following };
     private State state = State.Walking;
+    public int vida = 100;
+    private TextMesh textoVida;
 
     private Transform playerTransform;
 
+
     void Start()
     {
+        textoVida = GetComponentInChildren<TextMesh>();
         InvokeRepeating("Rotar", 0, 3);
     }
 
@@ -22,15 +27,28 @@ public class EnemigoListo : MonoBehaviour
         {
             transform.LookAt(playerTransform);
         }
+        textoVida.text = vida.ToString();
     }
     void Rotar()
     {
-        float delta = Random.Range(-180, 180);
-        transform.Rotate(new Vector3(0, delta, 0));
+        if (state != State.Following)
+        {
+            float delta = Random.Range(-180, 180);
+            transform.Rotate(new Vector3(0, delta, 0));
+        }
     }
     public void HacerDanyo(int danyo)
     {
-        Destroy(this.gameObject);
+        vida -= danyo;
+        vida = Mathf.Max(vida, 0);
+        if (vida == 0)
+        {
+            Instantiate(
+                prefabExplosion, 
+                transform.position, 
+                transform.rotation);
+            Destroy(this.gameObject);
+        }
     }
     void OnTriggerEnter(Collider collider)
     {

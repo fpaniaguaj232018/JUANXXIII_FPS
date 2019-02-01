@@ -22,7 +22,7 @@ public class Arma : MonoBehaviour {
                 Instantiate(
                     prefabProyectil,
                     puntoGeneracion.position,
-                    Quaternion.identity);
+                    puntoGeneracion.rotation);
             proyectil.GetComponent<Rigidbody>().AddForce(
                 transform.forward * fuerzaDisparo,
                 ForceMode.Impulse);
