@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Proyectil : MonoBehaviour
 {
+    
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemigo"))
+        if (collision.gameObject.CompareTag("EnemigoListo"))
         {
-            collision.gameObject.GetComponent<Enemigo>().HacerDanyo(1);
+            collision.gameObject.GetComponent<EnemigoListo>().HacerDanyo(1);
         }
     }
 }
